@@ -7,7 +7,10 @@ from userClass import User
 from userListClass import UserList
 
 BOT_PREFIX = "?"
-TOKEN = ''
+
+getToken = open("../../discordtoken.txt", "r")
+
+TOKEN = getToken.readline().strip()
 
 file1 = open("users.txt","r") 
 
