@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from userClass import User
 from userListClass import UserList
+import shutil
 
 BOT_PREFIX = "?"
 
@@ -124,7 +125,12 @@ async def setFaceitID(ctx, faceitID):
 
 @client.command(pass_context=True)
 async def close(ctx):
-    await client.say("Turning off bot")    
+    await client.say("Saving Data")
+    try:
+        shutil.move("temp.csv", "users.csv")  
+    except:
+        pass
+    await client.say("Turning off bot")   
     exit()
 
 client.run(TOKEN)        

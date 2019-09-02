@@ -1,5 +1,6 @@
 from userClass import User
 import csv
+import os
 
 class UserList:
 
@@ -45,9 +46,10 @@ class UserList:
                 lines[count] = newrow
                 print(lines)
                 break 
-        with open("write.csv", 'wb') as openwrite:
-            csv_w = csv.writer(openwrite)
-            csv_w.writerows(lines)
+        openwrite = open("temp.csv", 'w+')
+        csv_w = csv.writer(openwrite)
+        for row in lines:          
+            csv_w.writerow(row)
         openwrite.close()
                         
 
@@ -58,8 +60,10 @@ class UserList:
             username = row[0].strip()
             newUser = User(username)
             try:
-                newUser.setFaceit = row[1].strip()            
+                newUser.setFaceit = row[1].strip()    
+                print(username + newUser.getFaceit())        
             except:
-                print(username + " has no faceit id on file") 
+                pass
             self.addPlayer(newUser)
         openfile.close()
+
