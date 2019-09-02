@@ -7,7 +7,7 @@ from userClass import User
 from userListClass import UserList
 
 BOT_PREFIX = "?"
-TOKEN = 'NTU3NTExMDIzMjc2NDU3OTk0.D3JWTw.UwcR8wNMAwQSGgse46uo7349G3Y'
+TOKEN = ''
 
 file1 = open("users.txt","r") 
 
