@@ -22,6 +22,22 @@ client = Bot(command_prefix=BOT_PREFIX)
 
 playerobjectList.readFromList()
 
+channel1 = ""
+channel2 = ""
+def adoptChannel():
+    channelfile = open("channel.txt", "r")
+    channel1 = channelfile.readline()
+    channel2 = channelfile.readline()
+    channelfile.close()  
+
+def findUser(player):
+    for server in client.servers:
+        for member in server.members:
+            membername = member.name
+            membername += member.discriminator
+            if membername == player:
+                return member
+
 
 @client.command()
 async def move(arg):
@@ -72,19 +88,27 @@ async def move(arg):
         newmessage +=i
     newmessage += "\n"
     newmessage += block
-    #await client.send_message(client.get_channel('618118339415375874'), newmessage) 
-    await client.say(newmessage)   
-    print("============================================================================")
-    print("Server: ", server, "Map: ", cs_map)
-    print("============================================================================")
-    print(team1)
-    for i in team1_m:
-        print(i)
-    print("VS\n")
-    print(team2)
+    await client.say(newmessage) 
+    for server in client.servers:
+        for channel in server.channels:
+            if channel.name == channel1:
+                channelOne = channel
+
+    for server in client.servers:
+        for channel in server.channels:
+            if channel.name == channel2:
+                channelTwo = channel
+    
+    for i in team1_m:    
+        team1player = playerobjectList.getPlayerFaceit(i)
+        team1member = findUser(team1player.getName())
+        await client.move_member(team1member, channelOne)
+
+    
     for i in team2_m:
-        print(i)
-    print("============================================================================")
+        team2player = playerobjectList.getPlayerFaceit(i)
+        team2member = findUser(team2player.getName())
+        await client.move_member(team2member, channelTwo)
     file2.close()
 
 @client.command()
@@ -122,6 +146,19 @@ async def setFaceitID(ctx, faceitID):
         playerobjectList.addFaceitToList(user)
         message2 = "Your faceitID is now set to " + user.getFaceit()
         await client.say(message2)
+
+@client.command(pass_context=True)
+async def setChannels(ctx, team1, team2):
+    channel1 = team1
+    channel2 = team2
+    channelfile = open("channel.txt", "w+")
+    channelfile.writelines(team1)
+    channelfile.writelines("\n")
+    channelfile.writelines(team2)
+    channelfile.flush()
+    channelfile.close()
+    adoptChannel()
+
 
 @client.command(pass_context=True)
 async def close(ctx):

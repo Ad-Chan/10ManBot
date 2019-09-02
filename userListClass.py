@@ -19,9 +19,14 @@ class UserList:
             if i.getName() == username:
                 return i
 
+    def getPlayerFaceit(self, faceitID):
+        for i in self.list:
+            #print(i.getFaceit())
+            if i.getFaceit() == faceitID:
+                return i
+
     def addPlayer(self, player):
-        if self.findPlayer(player.getName()) == False:
-            self.list.append(player)
+        self.list.append(player)
 
     def removePlayer(self, player):
         self.list.remove(player)
@@ -30,7 +35,9 @@ class UserList:
     def printList(self):
         for i in self.list:
             print(type(i.getName()))
-            print(i.getName())        
+            print(i.getName())   
+            print(type(i.getFaceit()))
+            print(i.getFaceit())     
 
     def addFaceitToList(self, player):
         with open("users.csv", "r") as openfile:
@@ -60,8 +67,9 @@ class UserList:
             username = row[0].strip()
             newUser = User(username)
             try:
-                newUser.setFaceit = row[1].strip()    
-                print(username + newUser.getFaceit())        
+                newUser.setFaceit(row[1].strip()) 
+                #print(row[1].strip())
+                print("set faceit user" + username + newUser.getFaceit())        
             except:
                 pass
             self.addPlayer(newUser)

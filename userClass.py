@@ -2,7 +2,7 @@ class User:
 
     def __init__(self, name):
         self.name = name
-        self.faceitID = ""
+        self.faceitID = " "
 
     
     def getName(self):
