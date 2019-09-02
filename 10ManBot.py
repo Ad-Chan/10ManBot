@@ -41,10 +41,6 @@ async def move(arg):
     largelist = []
     for line in file2:
         largelist.append(line)
-    #count = 0
-    #for i in largelist:
-    #    print(count, i)
-    #    count = count + 1
     team1 = largelist[7]
     team2 = largelist[11]
     team1_m = []
@@ -75,7 +71,8 @@ async def move(arg):
         newmessage +=i
     newmessage += "\n"
     newmessage += block
-    await client.send_message(client.get_channel('618118339415375874'), newmessage)    
+    #await client.send_message(client.get_channel('618118339415375874'), newmessage) 
+    await client.say(newmessage)   
     print("============================================================================")
     print("Server: ", server, "Map: ", cs_map)
     print("============================================================================")
@@ -110,7 +107,18 @@ async def findMe(ctx):
     if playerobjectList.findPlayer(username) == True:
         user = playerobjectList.getPlayer(username)
         #print(user.getName())
-        await client.say(user.getName())
+        message = "Discord username on file: " + user.getName() + "\n" + "FaceitID on file: " + user.getFaceit()  
+        await client.say(message)
 
+@client.command(pass_context=True)
+async def setFaceitID(ctx, faceitID):
+    userid = ctx.message.author.name
+    userdis = ctx.message.author.discriminator
+    username = str(userid) + "#" + str(userdis)
+    if playerobjectList.findPlayer(username) == True:
+        user = playerobjectList.getPlayer(username)
+        user.setFaceit(faceitID)
+        message = "Your faceitID is now set to " + user.getFaceit()
+        await client.say(message)
 
 client.run(TOKEN)        
