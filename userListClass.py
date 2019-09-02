@@ -9,10 +9,7 @@ class UserList:
 
     def findPlayer(self, username):
         for i in self.list:
-            #if (i.getName() == "Stosh#6394"):
-                #print("true")
             if i.getName() == username:
-                #print("true")
                 return True
         return False
 
@@ -34,6 +31,25 @@ class UserList:
             print(type(i.getName()))
             print(i.getName())        
 
+    def addFaceitToList(self, player):
+        with open("users.csv", "r") as openfile:
+            csv_r = csv.reader(openfile)            
+            lines = list(csv_r)
+        openfile.close()
+        newrow = [player.getName(), player.getFaceit()]
+        count = -1
+        for row in lines:
+            count = count + 1
+            username = row[0].strip()      
+            if username == player.getName():
+                lines[count] = newrow
+                print(lines)
+                break 
+        with open("write.csv", 'wb') as openwrite:
+            csv_w = csv.writer(openwrite)
+            csv_w.writerows(lines)
+        openwrite.close()
+                        
 
     def readFromList(self):
         openfile = open('users.csv')

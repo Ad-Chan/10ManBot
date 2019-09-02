@@ -118,7 +118,13 @@ async def setFaceitID(ctx, faceitID):
     if playerobjectList.findPlayer(username) == True:
         user = playerobjectList.getPlayer(username)
         user.setFaceit(faceitID)
-        message = "Your faceitID is now set to " + user.getFaceit()
-        await client.say(message)
+        playerobjectList.addFaceitToList(user)
+        message2 = "Your faceitID is now set to " + user.getFaceit()
+        await client.say(message2)
+
+@client.command(pass_context=True)
+async def close(ctx):
+    await client.say("Turning off bot")    
+    exit()
 
 client.run(TOKEN)        
