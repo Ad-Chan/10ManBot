@@ -1,4 +1,5 @@
 from userClass import User
+import csv
 
 class UserList:
 
@@ -34,10 +35,15 @@ class UserList:
             print(i.getName())        
 
 
-    def readFromList(self, userfile):
-        openfile = open(userfile, "r")
-        for line in openfile:
-            username = line.strip()
+    def readFromList(self):
+        openfile = open('users.csv')
+        csv_f = csv.reader(openfile)
+        for row in csv_f:
+            username = row[0].strip()
             newUser = User(username)
+            try:
+                newUser.setFaceit = row[1].strip()            
+            except:
+                print(username + " has no faceit id on file") 
             self.addPlayer(newUser)
         openfile.close()

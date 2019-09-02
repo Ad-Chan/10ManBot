@@ -5,6 +5,6 @@ from userListClass import UserList
 
 PL = UserList()
 
-PL.readFromList("users.txt")
+PL.readFromList()
 PL.printList()
 print(PL.findPlayer("Stosh#6394"))

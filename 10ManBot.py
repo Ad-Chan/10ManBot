@@ -19,7 +19,7 @@ playerobjectList = UserList()
 client = Bot(command_prefix=BOT_PREFIX)
 
 
-playerobjectList.readFromList("users.txt")
+playerobjectList.readFromList()
 
 
 @client.command()
