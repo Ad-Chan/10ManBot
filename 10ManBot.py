@@ -11,18 +11,10 @@ TOKEN = 'NTU3NTExMDIzMjc2NDU3OTk0.D3JWTw.UwcR8wNMAwQSGgse46uo7349G3Y'
 
 file1 = open("users.txt","r") 
 
-playerlist = {}
-
 playerobjectList = UserList()
 
 client = Bot(command_prefix=BOT_PREFIX)
 
-for line in file1:
-    player = line.split(",")
-    if len(player) == 2:
-        playerlist[player[0]] = player[1]
-    else:
-        playerlist[player[0]] = ""
 
 playerobjectList.readFromList("users.txt")
 
