@@ -44,7 +44,7 @@ class UserList:
             csv_r = csv.reader(openfile)            
             lines = list(csv_r)
         openfile.close()
-        newrow = [player.getName(), player.getFaceit()]
+        newrow = [player.getName(), player.getFaceit(), player.getdiscordID()]
         count = -1
         for row in lines:
             count = count + 1
@@ -67,9 +67,10 @@ class UserList:
             username = row[0].strip()
             newUser = User(username)
             try:
-                newUser.setFaceit(row[1].strip()) 
+                newUser.setFaceit(row[1].strip())
+                newUser.setdiscordID(row[2].strip())
                 #print(row[1].strip())
-                print("set faceit user" + username + newUser.getFaceit())        
+                print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
             except:
                 pass
             self.addPlayer(newUser)

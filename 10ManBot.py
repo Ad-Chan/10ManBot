@@ -1,5 +1,7 @@
 # link to add bot https://discordapp.com/oauth2/authorize?&client_id=557511023276457994&scope=bot&permissions=8
-from discord.ext.commands import Bot
+import discord
+
+from discord.ext import commands
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -17,38 +19,30 @@ file1 = open("users.txt","r")
 
 playerobjectList = UserList()
 
-client = Bot(command_prefix=BOT_PREFIX)
+client = commands.Bot(command_prefix=BOT_PREFIX)
 
 
 playerobjectList.readFromList()
 
-channel1 = ""
-channel2 = ""
-def adoptChannel():
-    channelfile = open("channel.txt", "r")
-    channel1 = channelfile.readline()
-    channel2 = channelfile.readline()
-    channelfile.close()  
 
 def findUser(player):
     for server in client.servers:
         for member in server.members:
-            membername = member.name
-            membername += member.discriminator
-            if membername == player:
+            if member.id == player.strip():
+                print("FOUND MEMBER")
                 return member
 
 
-@client.command()
-async def move(arg):
+@client.command(pass_context=True)
+async def move(ctx, arg):
     file2 = open("buffer.txt","r+") 
     print("============================================================================")
     print("Running ?move")
     print("============================================================================")
     browser = webdriver.Firefox()
-    browser.get(arg)
-    browser.refresh()
-    timeout = 5
+    browser.get(str(arg))
+    #browser.refresh()
+    #timeout = 5
     nav = browser.find_element_by_tag_name("body")
     #print(nav.text)
     print("writing to file")
@@ -89,26 +83,44 @@ async def move(arg):
     newmessage += "\n"
     newmessage += block
     await client.say(newmessage) 
+    channelread = open("channel.txt", "r")
+    
+    channel1 = channelread.readline()
+    channel2 = channelread.readline()
+    channelread.close()
+    channelOne = ""
+    channelTwo = ""
     for server in client.servers:
         for channel in server.channels:
-            if channel.name == channel1:
+            #print(channel.name + " " + channel1)
+            if channel.name.strip() == channel1.strip():
+                #print("true")
                 channelOne = channel
 
     for server in client.servers:
         for channel in server.channels:
+            print(channel.name)
             if channel.name == channel2:
                 channelTwo = channel
     
     for i in team1_m:    
-        team1player = playerobjectList.getPlayerFaceit(i)
-        team1member = findUser(team1player.getName())
-        await client.move_member(team1member, channelOne)
+        team1player = playerobjectList.getPlayerFaceit(i.strip())
+        if isinstance(team1player, User): 
+            print(channelOne)
+            print(team1player.getdiscordID())
+            team1member = findUser(team1player.getdiscordID())
+            #team1member = await client.get_user_info(team1player.getdiscordID())
+            print(team1member)
+            await client.move_member(team1member, channelOne)
+            #await team1member.move_to(channelOne)
 
     
     for i in team2_m:
-        team2player = playerobjectList.getPlayerFaceit(i)
-        team2member = findUser(team2player.getName())
-        await client.move_member(team2member, channelTwo)
+        team2player = playerobjectList.getPlayerFaceit(i.strip())
+        if isinstance(team2player, User):
+            team2member = findUser(team2player.getdiscordID())
+            #team1member = await client.get_user_info(team2player.getdiscordID())
+            await client.move_member(team2member, channelTwo)
     file2.close()
 
 @client.command()
@@ -143,6 +155,7 @@ async def setFaceitID(ctx, faceitID):
     if playerobjectList.findPlayer(username) == True:
         user = playerobjectList.getPlayer(username)
         user.setFaceit(faceitID)
+        user.setdiscordID(ctx.message.author.id)
         playerobjectList.addFaceitToList(user)
         message2 = "Your faceitID is now set to " + user.getFaceit()
         await client.say(message2)

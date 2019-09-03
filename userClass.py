@@ -3,6 +3,7 @@ class User:
     def __init__(self, name):
         self.name = name
         self.faceitID = " "
+        self.discordID = " "
 
     
     def getName(self):
@@ -20,3 +21,11 @@ class User:
     def setFaceit(self, faceitID):
         self.faceitID = faceitID
     
+
+    def getdiscordID(self):
+        return self.discordID
+
+
+
+    def setdiscordID(self, discordID):
+        self.discordID = discordID
