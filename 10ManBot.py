@@ -41,8 +41,8 @@ async def move(ctx, arg):
     print("============================================================================")
     browser = webdriver.Firefox()
     browser.get(str(arg))
-    #browser.refresh()
-    #timeout = 5
+    browser.refresh()
+    timeout = 5
     nav = browser.find_element_by_tag_name("body")
     #print(nav.text)
     print("writing to file")
@@ -100,7 +100,7 @@ async def move(ctx, arg):
     for server in client.servers:
         for channel in server.channels:
             #print(channel.name)
-            if channel.name == channel2:
+            if channel.name.strip() == channel2.strip():
                 channelTwo = channel
     
     for i in team1_m:    
@@ -183,5 +183,9 @@ async def close(ctx):
         pass
     await client.say("Turning off bot")   
     exit()
+
+#@client.command(pass_context=True)
+#async def help(ctx):
+    
 
 client.run(TOKEN)        
