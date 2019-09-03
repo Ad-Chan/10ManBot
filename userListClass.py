@@ -40,7 +40,7 @@ class UserList:
             print(i.getFaceit())     
 
     def addFaceitToList(self, player):
-        with open("users.csv", "r") as openfile:
+        with open("../users.csv", "r") as openfile:
             csv_r = csv.reader(openfile)            
             lines = list(csv_r)
         openfile.close()
@@ -53,7 +53,7 @@ class UserList:
                 lines[count] = newrow
                 print(lines)
                 break 
-        openwrite = open("temp.csv", 'w+')
+        openwrite = open("../temp.csv", 'w+')
         csv_w = csv.writer(openwrite)
         for row in lines:          
             csv_w.writerow(row)
@@ -61,7 +61,7 @@ class UserList:
                         
 
     def readFromList(self):
-        openfile = open('users.csv')
+        openfile = open('../users.csv')
         csv_f = csv.reader(openfile)
         for row in csv_f:
             username = row[0].strip()
