@@ -15,7 +15,7 @@ getToken = open("../../discordtoken.txt", "r")
 
 TOKEN = getToken.readline().strip()
 
-file1 = open("users.txt","r") 
+file1 = open("../users.txt","r") 
 
 playerobjectList = UserList()
 
@@ -99,18 +99,18 @@ async def move(ctx, arg):
 
     for server in client.servers:
         for channel in server.channels:
-            print(channel.name)
+            #print(channel.name)
             if channel.name == channel2:
                 channelTwo = channel
     
     for i in team1_m:    
         team1player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team1player, User): 
-            print(channelOne)
-            print(team1player.getdiscordID())
+            #print(channelOne)
+            #print(team1player.getdiscordID())
             team1member = findUser(team1player.getdiscordID())
             #team1member = await client.get_user_info(team1player.getdiscordID())
-            print(team1member)
+            #print(team1member)
             await client.move_member(team1member, channelOne)
             #await team1member.move_to(channelOne)
 
@@ -121,6 +121,7 @@ async def move(ctx, arg):
             team2member = findUser(team2player.getdiscordID())
             #team1member = await client.get_user_info(team2player.getdiscordID())
             await client.move_member(team2member, channelTwo)
+    browser.close()
     file2.close()
 
 @client.command()

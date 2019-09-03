@@ -70,7 +70,7 @@ class UserList:
                 newUser.setFaceit(row[1].strip())
                 newUser.setdiscordID(row[2].strip())
                 #print(row[1].strip())
-                print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
+                #print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
             except:
                 pass
             self.addPlayer(newUser)
