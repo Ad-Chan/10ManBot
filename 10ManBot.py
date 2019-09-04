@@ -109,14 +109,17 @@ async def move(ctx, arg):
 
 @client.command()
 async def read():
-    file2 = open("../users.txt","r+") 
-    print("Running ?read")
-    for server in client.servers:
-        for member in server.members:
-            print(str(member))
-            file2.write(str(member)) 
-            file2.write("\n")
-    file2.close()
+    if ctx.message.author.server_permissions.administrator:
+        file2 = open("../users.txt","r+") 
+        print("Running ?read")
+        for server in client.servers:
+            for member in server.members:
+                print(str(member))
+                file2.write(str(member)) 
+                file2.write("\n")
+        file2.close()
+    else:
+        await client.say("You need to be an administrator!")        
 
 @client.command(pass_context=True)
 async def findMe(ctx):
@@ -155,14 +158,17 @@ async def setChannels(ctx, team1, team2):
 
 @client.command(pass_context=True)
 async def close(ctx):
-    await client.say("Saving Data") 
-    playerobjectList.updateList()
-    try:
-        shutil.move("../temp.csv", "../users.csv")  
-    except:
-        pass
-    await client.say("Turning off bot")   
-    exit()
+    if ctx.message.author.server_permissions.administrator:
+        await client.say("Saving Data") 
+        playerobjectList.updateList()
+        try:
+            shutil.move("../temp.csv", "../users.csv")  
+        except:
+            pass
+        await client.say("Turning off bot")   
+        exit()
+    else:
+        await client.say("You need to be an administrator!")
 
 #@client.command(pass_context=True)
 #async def help(ctx):
