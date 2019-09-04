@@ -11,7 +11,7 @@ import shutil
 
 BOT_PREFIX = "?"
 
-getToken = open("../../discordtoken.txt", "r")
+getToken = open("../discordtoken.txt", "r")
 
 TOKEN = getToken.readline().strip()
 
@@ -29,7 +29,7 @@ def findUser(player):
     for server in client.servers:
         for member in server.members:
             if member.id == player.strip():
-                print("FOUND MEMBER")
+                print("FOUND MEMBER " + member.id)
                 return member
 
 
@@ -59,20 +59,30 @@ async def move(ctx, arg):
     team1 = ""
     team2 = ""
     count = 0
+    count2 = 0
     matchMap = ""
     for i in largelist:
+        if (len(matchMap) > 0) & (count2 < 10):
+            count2 = count2 + 1
+            team2_m.append(i.strip())
+        if (len(team1) > 0) & (len(team2) > 0) & (count < 10):
+            count = count + 1
+            team1_m.append(i.strip())
         if "TEAM" in i:
             if len(team1) <= 0:
-                team1 = i
-            else if len(team2) <= 0:
-                team2 = i
-        if len(team1) > 0 & len(team2) > 0:
-            team1_m.append(i)
-        if i in maps:
-            matchMap = i
+                #print(i)
+                team1 = i.strip()
+            else:
+                if len(team2) <= 0:
+                    #print(i)
+                    team2 = i.strip()
+        if "de_" in i:
+            for j in maps:
+                if i.strip() == j:  
+                    matchMap = i.strip()
         
             
-
+    channelread = open("channel.txt", "r")
     channel1 = channelread.readline()
     channel2 = channelread.readline()
     channelread.close()
@@ -114,7 +124,7 @@ async def move(ctx, arg):
 
 @client.command()
 async def read():
-    file2 = open("users.txt","r+") 
+    file2 = open("../users.txt","r+") 
     print("============================================================================")
     print("Running ?read")
     print("============================================================================")
@@ -166,7 +176,7 @@ async def setChannels(ctx, team1, team2):
 async def close(ctx):
     await client.say("Saving Data")
     try:
-        shutil.move("temp.csv", "users.csv")  
+        shutil.move("../temp.csv", "../users.csv")  
     except:
         pass
     await client.say("Turning off bot")   
