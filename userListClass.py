@@ -59,6 +59,16 @@ class UserList:
             csv_w.writerow(row)
         openwrite.close()
                         
+    def updateList(self):
+        openwrite = open("../temp.csv", 'w+')
+        csv_w = csv.writer(openwrite)
+        start = ["discordUsername", "faceitID", "discordID"]
+        csv_w.writerow(start)
+        for i in self.list:
+            newrow = [i.getName(), i.getFaceit(), i.getdiscordID()]
+            csv_w.writerow(newrow)
+            
+
 
     def readFromList(self):
         openfile = open('../users.csv')
@@ -70,7 +80,7 @@ class UserList:
                 newUser.setFaceit(row[1].strip())
                 newUser.setdiscordID(row[2].strip())
                 #print(row[1].strip())
-                #print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
+                print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
             except:
                 pass
             self.addPlayer(newUser)

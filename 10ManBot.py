@@ -11,7 +11,7 @@ import shutil
 
 BOT_PREFIX = "?"
 
-getToken = open("../../discordtoken.txt", "r")
+getToken = open("../discordtoken.txt", "r")
 
 TOKEN = getToken.readline().strip()
 
@@ -56,12 +56,14 @@ async def move(ctx, arg):
     team2 = largelist[11]
     team1_m = []
     team2_m = []
+    
+
     team1_m.append(largelist[12])
     team1_m.append(largelist[14])
     team1_m.append(largelist[16])
     team1_m.append(largelist[18])
     team1_m.append(largelist[20])
-    team2_m.append(largelist[27])
+    team2_m.append(largelist[25])
     team2_m.append(largelist[29])  
     team2_m.append(largelist[31])    
     team2_m.append(largelist[33])    
@@ -82,9 +84,21 @@ async def move(ctx, arg):
         newmessage +=i
     newmessage += "\n"
     newmessage += block
-    await client.say(newmessage) 
+    #await client.say(newmessage) 
+    await client.say("moving")
+    count = 0
+    #for i in largelist:
+    #    if "TEAM" in i:
+    #        if "TEAM" not in team1:
+    #            team1 = i
+    #        else:
+    #            team2 = i
+    #    if "TEAM" in team1 & "TEAM" in team2:
+    #        if i == "Melbourne" or i == "Sydney":
+    #            server = i
+            
+
     channelread = open("channel.txt", "r")
-    
     channel1 = channelread.readline()
     channel2 = channelread.readline()
     channelread.close()
@@ -157,7 +171,7 @@ async def setFaceitID(ctx, faceitID):
         user = playerobjectList.getPlayer(username)
         user.setFaceit(faceitID)
         user.setdiscordID(ctx.message.author.id)
-        playerobjectList.addFaceitToList(user)
+        #playerobjectList.addFaceitToList(user)
         message2 = "Your faceitID is now set to " + user.getFaceit()
         await client.say(message2)
 
@@ -176,9 +190,10 @@ async def setChannels(ctx, team1, team2):
 
 @client.command(pass_context=True)
 async def close(ctx):
-    await client.say("Saving Data")
+    await client.say("Saving Data") 
+    playerobjectList.updateList()
     try:
-        shutil.move("temp.csv", "users.csv")  
+        shutil.move("../temp.csv", "../users.csv")  
     except:
         pass
     await client.say("Turning off bot")   
