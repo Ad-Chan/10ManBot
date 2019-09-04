@@ -29,16 +29,14 @@ def findUser(player):
     for server in client.servers:
         for member in server.members:
             if member.id == player.strip():
-                print("FOUND MEMBER " + member.id)
+                print("FOUND MEMBER " + member.name)
                 return member
 
 
 @client.command(pass_context=True)
 async def move(ctx, arg):
     file2 = open("buffer.txt","r+") 
-    print("============================================================================")
     print("Running ?move")
-    print("============================================================================")
     browser = webdriver.Firefox()
     browser.get(str(arg))
     browser.refresh()
@@ -99,6 +97,8 @@ async def move(ctx, arg):
             if channel.name.strip() == channel2.strip():
                 channelTwo = channel
     
+    await client.say("Moving")
+
     for i in team1_m:    
         team1player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team1player, User): 
@@ -123,9 +123,7 @@ async def move(ctx, arg):
 @client.command()
 async def read():
     file2 = open("../users.txt","r+") 
-    print("============================================================================")
     print("Running ?read")
-    print("============================================================================")
     for server in client.servers:
         for member in server.members:
             print(str(member))
