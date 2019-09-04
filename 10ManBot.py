@@ -29,7 +29,7 @@ def findUser(player):
     for server in client.servers:
         for member in server.members:
             if member.id == player.strip():
-                print("FOUND MEMBER")
+                print("FOUND MEMBER " + member.id)
                 return member
 
 
@@ -52,52 +52,34 @@ async def move(ctx, arg):
     largelist = []
     for line in file2:
         largelist.append(line)
-    team1 = largelist[7]
-    team2 = largelist[11]
+
+    maps = ["de_overpass", "de_inferno", "de_dust2", "de_cache", "de_vertigo", "de_mirage", "de_train", "de_cbble", "de_nuke"]
     team1_m = []
     team2_m = []
-    
-
-    team1_m.append(largelist[12])
-    team1_m.append(largelist[14])
-    team1_m.append(largelist[16])
-    team1_m.append(largelist[18])
-    team1_m.append(largelist[20])
-    team2_m.append(largelist[25])
-    team2_m.append(largelist[29])  
-    team2_m.append(largelist[31])    
-    team2_m.append(largelist[33])    
-    team2_m.append(largelist[35])
-    server = largelist[22]
-    cs_map = largelist[23]
-    block = "============================================================================\n"
-    message = "Server: " + server + "Map: " + cs_map + "\n"
-    newmessage = block + message + team1 + "\n" 
-    for i in team1_m:
-        newmessage += i
-    newmessage += "\n"
-    newmessage += "VS\n"
-    newmessage += "\n"
-    newmessage += team2
-    newmessage += "\n"
-    for i in team2_m:
-        newmessage +=i
-    newmessage += "\n"
-    newmessage += block
-    #await client.say(newmessage) 
-    await client.say("moving")
+    team1 = ""
+    team2 = ""
     count = 0
-    #for i in largelist:
-    #    if "TEAM" in i:
-    #        if "TEAM" not in team1:
-    #            team1 = i
-    #        else:
-    #            team2 = i
-    #    if "TEAM" in team1 & "TEAM" in team2:
-    #        if i == "Melbourne" or i == "Sydney":
-    #            server = i
-            
-
+    count2 = 0
+    matchMap = ""
+    for i in largelist:
+        if (len(matchMap) > 0) & (count2 < 10):
+            count2 = count2 + 1
+            team2_m.append(i.strip())
+        if (len(team1) > 0) & (len(team2) > 0) & (count < 10):
+            count = count + 1
+            team1_m.append(i.strip())
+        if "TEAM" in i:
+            if len(team1) <= 0:
+                #print(i)
+                team1 = i.strip()
+            else:
+                if len(team2) <= 0:
+                    #print(i)
+                    team2 = i.strip()
+        if "de_" in i:
+            for j in maps:
+                if i.strip() == j:  
+                    matchMap = i.strip()
     channelread = open("channel.txt", "r")
     channel1 = channelread.readline()
     channel2 = channelread.readline()
@@ -140,7 +122,7 @@ async def move(ctx, arg):
 
 @client.command()
 async def read():
-    file2 = open("users.txt","r+") 
+    file2 = open("../users.txt","r+") 
     print("============================================================================")
     print("Running ?read")
     print("============================================================================")
