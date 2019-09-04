@@ -1,4 +1,3 @@
-# link to add bot https://discordapp.com/oauth2/authorize?&client_id=557511023276457994&scope=bot&permissions=8
 import discord
 
 from discord.ext import commands
@@ -42,7 +41,6 @@ async def move(ctx, arg):
     browser.refresh()
     timeout = 5
     nav = browser.find_element_by_tag_name("body")
-    #print(nav.text)
     print("writing to file")
     file2.write(nav.text)  
     file2.close()                  
@@ -68,11 +66,9 @@ async def move(ctx, arg):
             team1_m.append(i.strip())
         if "TEAM" in i:
             if len(team1) <= 0:
-                #print(i)
                 team1 = i.strip()
             else:
                 if len(team2) <= 0:
-                    #print(i)
                     team2 = i.strip()
         if "de_" in i:
             for j in maps:
@@ -86,14 +82,11 @@ async def move(ctx, arg):
     channelTwo = ""
     for server in client.servers:
         for channel in server.channels:
-            #print(channel.name + " " + channel1)
             if channel.name.strip() == channel1.strip():
-                #print("true")
                 channelOne = channel
 
     for server in client.servers:
         for channel in server.channels:
-            #print(channel.name)
             if channel.name.strip() == channel2.strip():
                 channelTwo = channel
     
@@ -102,20 +95,14 @@ async def move(ctx, arg):
     for i in team1_m:    
         team1player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team1player, User): 
-            #print(channelOne)
-            #print(team1player.getdiscordID())
             team1member = findUser(team1player.getdiscordID())
-            #team1member = await client.get_user_info(team1player.getdiscordID())
-            #print(team1member)
             await client.move_member(team1member, channelOne)
-            #await team1member.move_to(channelOne)
 
     
     for i in team2_m:
         team2player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team2player, User):
             team2member = findUser(team2player.getdiscordID())
-            #team1member = await client.get_user_info(team2player.getdiscordID())
             await client.move_member(team2member, channelTwo)
     browser.close()
     file2.close()
@@ -138,7 +125,6 @@ async def findMe(ctx):
     username = str(userid) + "#" + str(userdis)
     if playerobjectList.findPlayer(username) == True:
         user = playerobjectList.getPlayer(username)
-        #print(user.getName())
         message = "Discord username on file: " + user.getName() + "\n" + "FaceitID on file: " + user.getFaceit()  
         await client.say(message)
 
@@ -151,7 +137,6 @@ async def setFaceitID(ctx, faceitID):
         user = playerobjectList.getPlayer(username)
         user.setFaceit(faceitID)
         user.setdiscordID(ctx.message.author.id)
-        #playerobjectList.addFaceitToList(user)
         message2 = "Your faceitID is now set to " + user.getFaceit()
         await client.say(message2)
 

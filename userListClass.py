@@ -21,7 +21,6 @@ class UserList:
 
     def getPlayerFaceit(self, faceitID):
         for i in self.list:
-            #print(i.getFaceit())
             if i.getFaceit() == faceitID:
                 return i
 
@@ -62,7 +61,6 @@ class UserList:
     def updateList(self):
         openwrite = open("../temp.csv", 'w+')
         csv_w = csv.writer(openwrite)
-        start = ["discordUsername", "faceitID", "discordID"]
         csv_w.writerow(start)
         for i in self.list:
             newrow = [i.getName(), i.getFaceit(), i.getdiscordID()]
@@ -79,7 +77,6 @@ class UserList:
             try:
                 newUser.setFaceit(row[1].strip())
                 newUser.setdiscordID(row[2].strip())
-                #print(row[1].strip())
                 print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
             except:
                 pass
