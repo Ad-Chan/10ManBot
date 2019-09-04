@@ -38,8 +38,8 @@ async def move(ctx, arg):
     print("Running ?move")
     browser = webdriver.Firefox()
     browser.get(str(arg))
-    browser.refresh()
-    timeout = 5
+    #browser.refresh()
+    #timeout = 5
     nav = browser.find_element_by_tag_name("body")
     print("writing to file")
     file2.write(nav.text)  
