@@ -52,39 +52,27 @@ async def move(ctx, arg):
     largelist = []
     for line in file2:
         largelist.append(line)
-    team1 = largelist[7]
-    team2 = largelist[11]
+
+    maps = ["de_overpass", "de_inferno", "de_dust2", "de_cache", "de_vertigo", "de_mirage", "de_train", "de_cbble", "de_nuke"]
     team1_m = []
     team2_m = []
-    team1_m.append(largelist[12])
-    team1_m.append(largelist[14])
-    team1_m.append(largelist[16])
-    team1_m.append(largelist[18])
-    team1_m.append(largelist[20])
-    team2_m.append(largelist[27])
-    team2_m.append(largelist[29])  
-    team2_m.append(largelist[31])    
-    team2_m.append(largelist[33])    
-    team2_m.append(largelist[35])
-    server = largelist[22]
-    cs_map = largelist[23]
-    block = "============================================================================\n"
-    message = "Server: " + server + "Map: " + cs_map + "\n"
-    newmessage = block + message + team1 + "\n" 
-    for i in team1_m:
-        newmessage += i
-    newmessage += "\n"
-    newmessage += "VS\n"
-    newmessage += "\n"
-    newmessage += team2
-    newmessage += "\n"
-    for i in team2_m:
-        newmessage +=i
-    newmessage += "\n"
-    newmessage += block
-    await client.say(newmessage) 
-    channelread = open("channel.txt", "r")
-    
+    team1 = ""
+    team2 = ""
+    count = 0
+    matchMap = ""
+    for i in largelist:
+        if "TEAM" in i:
+            if len(team1) <= 0:
+                team1 = i
+            else if len(team2) <= 0:
+                team2 = i
+        if len(team1) > 0 & len(team2) > 0:
+            team1_m.append(i)
+        if i in maps:
+            matchMap = i
+        
+            
+
     channel1 = channelread.readline()
     channel2 = channelread.readline()
     channelread.close()
