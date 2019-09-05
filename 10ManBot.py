@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from userClass import User
 from userListClass import UserList
+from selenium.webdriver.firefox.options import Options
 import shutil
 
 BOT_PREFIX = "?"
@@ -36,7 +37,9 @@ def findUser(player):
 async def move(ctx, arg):
     file2 = open("buffer.txt","r+") 
     print("Running ?move")
-    browser = webdriver.Firefox()
+    options = Options()
+    options.headless = True
+    browser = webdriver.Firefox(options=options)
     browser.get(str(arg))
     #browser.refresh()
     #timeout = 5
@@ -50,6 +53,7 @@ async def move(ctx, arg):
         largelist.append(line)
 
     maps = ["de_overpass", "de_inferno", "de_dust2", "de_cache", "de_vertigo", "de_mirage", "de_train", "de_cbble", "de_nuke"]
+    bannedWords = ["SHARE", "WATCH DEMO", "GO TO HUB", "Download client", "CREATE ACCOUNT", "LOGIN", "CS:GO 5V5", "OVERVIEW", "SCOREBOARD", "VIDEOS", "READY", "TIME TO CONNECT", "FACEIT use cookies to ensure you get the best experience online!", "I UNDERSTAND"]
     team1_m = []
     team2_m = []
     team1 = ""
@@ -58,22 +62,27 @@ async def move(ctx, arg):
     count2 = 0
     matchMap = ""
     for i in largelist:
-        if (len(matchMap) > 0) & (count2 < 10):
-            count2 = count2 + 1
-            team2_m.append(i.strip())
-        if (len(team1) > 0) & (len(team2) > 0) & (count < 10):
-            count = count + 1
-            team1_m.append(i.strip())
-        if "TEAM" in i:
-            if len(team1) <= 0:
-                team1 = i.strip()
-            else:
-                if len(team2) <= 0:
-                    team2 = i.strip()
-        if "de_" in i:
-            for j in maps:
-                if i.strip() == j:  
-                    matchMap = i.strip()
+        if i.strip() not in bannedWords:
+            if (len(matchMap) > 0) & (count2 < 5):
+                count2 = count2 + 1
+                team2_m.append(i.strip())
+            if (len(team1) > 0) & (len(team2) > 0) & (count < 5):
+                count = count + 1
+                team1_m.append(i.strip())
+            if "TEAM" in i:
+                if len(team1) <= 0:
+                    #print(i)
+                    team1 = i.strip()
+                else:
+                    if len(team2) <= 0:
+                        #print(i)
+                        team2 = i.strip()
+            if "de_" in i:
+                for j in maps:
+                    if i.strip() == j:  
+                        matchMap = i.strip()
+
+
     channelread = open("channel.txt", "r")
     channel1 = channelread.readline()
     channel2 = channelread.readline()
