@@ -21,8 +21,10 @@ class UserList:
 
     def getPlayerFaceit(self, faceitID):
         for i in self.list:
-            if i.getFaceit() == faceitID:
-                return i
+            faceitNames = i.getFaceit()
+            for j in faceitNames:
+                if j == faceitID:
+                    return i
 
     def addPlayer(self, player):
         self.list.append(player)
@@ -62,7 +64,14 @@ class UserList:
         openwrite = open("../temp.csv", 'w+')
         csv_w = csv.writer(openwrite)
         for i in self.list:
-            newrow = [i.getName(), i.getFaceit(), i.getdiscordID()]
+            faceitNames = i.getFaceit()
+            names = ""
+            for j in faceitNames:
+                if len(names) <= 0:
+                    names += j
+                else:
+                    names += " " + j
+            newrow = [i.getName(), names, i.getdiscordID()]
             csv_w.writerow(newrow)
             
 
@@ -74,10 +83,12 @@ class UserList:
             username = row[0].strip()
             newUser = User(username)
             try:
-                newUser.setFaceit(row[1].strip())
+                faceitNames = list((row[1].strip()).split())                
+                for i in faceitNames:
+                    newUser.setFaceit(i)
                 newUser.setdiscordID(row[2].strip())
-                if (len(row[1].strip()) > 0) & (len(row[2].strip() > 0)):
-                    print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
+
+                print("set faceit user" + username + newUser.getFaceit() + newUser.getdiscordID())        
             except:
                 pass
             self.addPlayer(newUser)

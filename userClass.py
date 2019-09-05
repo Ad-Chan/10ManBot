@@ -2,7 +2,7 @@ class User:
 
     def __init__(self, name):
         self.name = name
-        self.faceitID = " "
+        self.faceitID = []
         self.discordID = " "
 
     
@@ -19,13 +19,15 @@ class User:
 
 
     def setFaceit(self, faceitID):
-        self.faceitID = faceitID
+        self.faceitID.append(faceitID)
     
+    def removeFaceit(self, faceitID):
+        for i in self.faceitID:
+            if faceitID == i:
+                self.faceitID.remove(i)
 
     def getdiscordID(self):
         return self.discordID
-
-
 
     def setdiscordID(self, discordID):
         self.discordID = discordID

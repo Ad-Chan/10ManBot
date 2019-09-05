@@ -137,11 +137,24 @@ async def findMe(ctx):
     username = str(userid) + "#" + str(userdis)
     if playerobjectList.findPlayer(username) == True:
         user = playerobjectList.getPlayer(username)
-        message = "Discord username on file: " + user.getName() + "\n" + "FaceitID on file: " + user.getFaceit()  
+        message = "Discord username on file: " + user.getName() + "\n" + "FaceitID on file:"
+        faceitNames = user.getFaceit()  
+        for i in faceitNames:
+            message += " " + i
         await client.say(message)
 
 @client.command(pass_context=True)
-async def setFaceitID(ctx, faceitID):
+async def findPlayer(ctx, username):
+    if playerobjectList.findPlayer(username) == True:
+        user = playerobjectList.getPlayer(username)
+        message = "Discord username on file: " + user.getName() + "\n" + "FaceitID on file:"
+        faceitNames = user.getFaceit()  
+        for i in faceitNames:
+            message += " " + i
+        await client.say(message)
+
+@client.command(pass_context=True)
+async def addFaceitID(ctx, faceitID):
     userid = ctx.message.author.name
     userdis = ctx.message.author.discriminator
     username = str(userid) + "#" + str(userdis)
@@ -149,7 +162,23 @@ async def setFaceitID(ctx, faceitID):
         user = playerobjectList.getPlayer(username)
         user.setFaceit(faceitID)
         user.setdiscordID(ctx.message.author.id)
-        message2 = "Your faceitID is now set to " + user.getFaceit()
+        message2 = "Your faceitID is now set to "
+        for i in user.getFaceit():
+            message2 += i + " "
+        await client.say(message2)
+
+@client.command(pass_context=True)
+async def removeFaceitID(ctx, faceitID):
+    userid = ctx.message.author.name
+    userdis = ctx.message.author.discriminator
+    username = str(userid) + "#" + str(userdis)
+    if playerobjectList.findPlayer(username) == True:
+        user = playerobjectList.getPlayer(username)
+        user.removeFaceit(faceitID)
+        user.setdiscordID(ctx.message.author.id)
+        message2 = "Your faceitIDs on file are "
+        for i in user.getFaceit():
+            message2 += i + " "
         await client.say(message2)
 
 @client.command(pass_context=True)
@@ -178,6 +207,18 @@ async def close(ctx):
         exit()
     else:
         await client.say("You need to be an administrator!")
+
+@client.command(pass_context=True)
+async def addFaceitToUser(ctx, discordName, faceitID):
+    if ctx.message.author.server_permissions.administrator:
+        try:
+            user = playerobjectList.getPlayer(discordName)
+            await client.say("Found player")
+            user.setFaceit(faceitID.strip())
+        except:
+            pass
+    else:
+        await client.say("You need to be an administrator!")  
 
 #@client.command(pass_context=True)
 #async def help(ctx):
