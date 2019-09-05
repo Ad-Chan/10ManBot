@@ -21,9 +21,19 @@ This is my discord bot that reads a Faceit match page and moves discord users ac
 <b><i>?findMe</i></b>
 - Shows member what the Bot has about them on file (discord name, faceit name)
 
-<b><i>?setFaceitID ID</i></b>
+<b><i>?findPlayer DiscordUser</i></b>
+- Shows an admin what the Bot has about a specific user on file (discord name, faceit name)
+
+<b><i>?addFaceitID ID</i></b>
 - Takes in ID (your faceit ID)
 - Stores your faceit ID so that you can be moved in the future
+
+<b><i>?addFaceitToUser DiscordID FaceitID</i></b>
+- Admin only
+- Adds faceitID to other users
+
+<b><i>?removeFaceitID ID</i></b>
+- Removes the ID specified
 
 <b><i>?setChannels channel1 channel2</i></b>
 - Takes in two channels, channel1 and channel2
@@ -31,4 +41,4 @@ This is my discord bot that reads a Faceit match page and moves discord users ac
 - Channel name cannot have spaces (May change in the future)
 
 <b><i>?close</i></b>
-- Turns off the bot
+- Turns off the bot (Admin only)
