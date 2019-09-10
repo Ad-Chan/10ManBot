@@ -110,7 +110,8 @@ async def move(ctx, arg):
                 moveMessage = "Moved " + team1member
                 await client.say(moveMessage)
             except:
-                pass
+                exceptMessage = team1member.name + " not connected to voice channel"
+                print(exceptMessage)
 
     
     for i in team2_m:
@@ -119,10 +120,11 @@ async def move(ctx, arg):
             team2member = findUser(team2player.getdiscordID())
             try:
                 await client.move_member(team2member, channelTwo)
-                moveMessage = "Moved " + team2member
+                moveMessage2 = "Moved " + team2member
                 await client.say(moveMessage)
             except:
-                pass
+                exceptMessage2 = team2member.name + " not connected to voice channel"
+                print(exceptMessage2)
     browser.close()
     file2.close()
 
