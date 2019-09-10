@@ -99,20 +99,30 @@ async def move(ctx, arg):
             if channel.name.strip() == channel2.strip():
                 channelTwo = channel
     
-    await client.say("Moving")
+    await client.say("Moving...")
 
     for i in team1_m:    
         team1player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team1player, User): 
             team1member = findUser(team1player.getdiscordID())
-            await client.move_member(team1member, channelOne)
+            try:
+                await client.move_member(team1member, channelOne)
+                moveMessage = "Moved " + team1member
+                await client.say(moveMessage)
+            except:
+                pass
 
     
     for i in team2_m:
         team2player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team2player, User):
             team2member = findUser(team2player.getdiscordID())
-            await client.move_member(team2member, channelTwo)
+            try:
+                await client.move_member(team2member, channelTwo)
+                moveMessage = "Moved " + team2member
+                await client.say(moveMessage)
+            except:
+                pass
     browser.close()
     file2.close()
 
@@ -222,6 +232,7 @@ async def addFaceitToUser(ctx, discordName, faceitID):
 
 #@client.command(pass_context=True)
 #async def help(ctx):
+    #message = "There are 
     
 
 client.run(TOKEN)        
