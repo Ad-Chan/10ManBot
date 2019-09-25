@@ -32,6 +32,24 @@ def findUser(player):
                 print("FOUND MEMBER " + member.name)
                 return member
 
+@client.command(pass_context=True)
+async def moveToLobby(ctx):
+    channelread = open("channel.txt", "r")
+    channel1 = channelread.readline()
+    channel2 = channelread.readline()
+    channel3 = channelread.readline()
+    channelread.close()
+    channelOne = ""
+    channelTwo = ""
+    channelThree = ""
+    for server in client.servers:
+        for channel in server.channels:
+            if channel.name.strip() == channel1.strip():
+                channelOne = channel
+            if channel.name.strip() == channel2.strip():
+                channelTwo = channel 
+            if channel.name.strip() == channel3.strip():
+                channelThree = channel 
 
 @client.command(pass_context=True)
 async def move(ctx, arg):
@@ -41,7 +59,7 @@ async def move(ctx, arg):
     options.headless = True
     browser = webdriver.Firefox(options=options)
     browser.get(str(arg))
-    #browser.refresh()
+    browser.refresh()
     #timeout = 5
     nav = browser.find_element_by_tag_name("body")
     print("writing to file")
@@ -101,7 +119,8 @@ async def move(ctx, arg):
     
     await client.say("Moving...")
 
-    for i in team1_m:    
+    for i in team1_m:
+        print("team1 " + i)    
         team1player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team1player, User): 
             team1member = findUser(team1player.getdiscordID())
@@ -115,6 +134,7 @@ async def move(ctx, arg):
 
     
     for i in team2_m:
+        print("team2 " + i)
         team2player = playerobjectList.getPlayerFaceit(i.strip())
         if isinstance(team2player, User):
             team2member = findUser(team2player.getdiscordID())
@@ -221,12 +241,13 @@ async def close(ctx):
         await client.say("You need to be an administrator!")
 
 @client.command(pass_context=True)
-async def addFaceitToUser(ctx, discordName, faceitID):
+async def addFaceitToUser(ctx, discordName, faceitID, discordID):
     if ctx.message.author.server_permissions.administrator:
         try:
             user = playerobjectList.getPlayer(discordName)
             await client.say("Found player")
             user.setFaceit(faceitID.strip())
+            user.setdiscordID(discordID)
         except:
             pass
     else:

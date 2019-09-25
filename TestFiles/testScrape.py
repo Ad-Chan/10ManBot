@@ -13,7 +13,7 @@ import shutil
 options = Options()
 options.headless = True
 browser = webdriver.Firefox(options=options)
-browser.get("https://www.faceit.com/en/csgo/room/1-9672241b-4eb0-4b13-a8ce-943ed36c4950")
+browser.get("https://www.faceit.com/en/csgo/room/1-9ff89488-3cf6-47b0-9120-86015bb4e81b")
 #browser.refresh()
 #timeout = 5
 nav = browser.find_element_by_tag_name("body")
