@@ -63,12 +63,20 @@ async def move(ctx, arg):
     #timeout = 5
     nav = browser.find_element_by_tag_name("body")
     print("writing to file")
-    file2.write(nav.text)  
-    file2.close()                  
-    file2 = open("buffer.txt", "r+")
+    #file2.write(nav.text)  
+    #file2.close()                  
+    #file2 = open("buffer.txt", "r+")
     largelist = []
-    for line in file2:
-        largelist.append(line)
+    #for line in file2:
+        #largelist.append(line)
+    tempString = ""
+    for line in nav.text:
+        if line != '\n':
+            tempString += line
+        else:
+            largelist.append(tempString) 
+            #print(tempString)           
+            tempString = ""
 
     maps = ["de_overpass", "de_inferno", "de_dust2", "de_cache", "de_vertigo", "de_mirage", "de_train", "de_cbble", "de_nuke"]
     bannedWords = ["SHARE", "WATCH DEMO", "GO TO HUB", "Download client", "CREATE ACCOUNT", "LOGIN", "CS:GO 5V5", "OVERVIEW", "SCOREBOARD", "VIDEOS", "READY", "TIME TO CONNECT", "FACEIT use cookies to ensure you get the best experience online!", "I UNDERSTAND"]
@@ -117,7 +125,7 @@ async def move(ctx, arg):
             if channel.name.strip() == channel2.strip():
                 channelTwo = channel
     
-    await client.say("Moving...")
+    #await client.say("Moving...")
 
     for i in team1_m:
         print("team1 " + i)    
