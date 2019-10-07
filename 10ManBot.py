@@ -165,6 +165,7 @@ async def read():
             for member in server.members:
                 print(str(member))
                 file2.write(str(member)) 
+                file2.write("," + member.id)
                 file2.write("\n")
         file2.close()
     else:
